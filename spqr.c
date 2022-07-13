@@ -106,7 +106,6 @@ int main(int argc, char *argv[])
 
     fclose(input_file);
     fclose(output_file);
-    free(buffer);
 
     sprintf(command, "gcc %s.c -c && gcc %s.o -o %s && rm -rf %s.c %s.o", output_filename, output_filename, output_filename, output_filename, output_filename);
     fp = popen(command, "r");
