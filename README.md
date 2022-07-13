@@ -1,2 +1,2 @@
 # SPQR
-SPQR programming language based on the latin language
+SPQR esoteric programming language based on the latin language and C
