@@ -3,7 +3,7 @@ SPQR esoteric programming language based on the latin language
 
 ## Usage
 
-spqr <input-filename> <output-filename>
+spqr input-filename output-filename
 
 ## Example
 
