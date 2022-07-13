@@ -17,5 +17,5 @@ spqr example.spqr example
 
 ### Output
 
-Carthago delenda est!
+Carthago delenda est! <br>
 Gallia est omnis divisa in partes tres.
