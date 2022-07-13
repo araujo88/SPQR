@@ -24,24 +24,21 @@ char *remove_substring(char *str, const char *sub) {
 }
 
 void process_file(FILE *input_file, FILE *output_file, char *buffer) {
-    long int length;
     char *command;
+    ssize_t read;
+    size_t len = 0;
 
     if (input_file) {
-        fseek (input_file, 0, SEEK_END);
-        length = ftell(input_file);
-        fseek (input_file, 0, SEEK_SET);
-        buffer = malloc(length);
-        if (buffer)
-        {
-            fread(buffer, 1, length, input_file);
-
+        while ((read = getline(&buffer, &len, input_file)) != -1) {
             command = strstr(buffer, "imprimere(\"");
             if (command != NULL) {
                 command += 11;
                 command = remove_substring(command, "\")");
+                remove_char(command, '\n');
                 fprintf(output_file, "\tprintf(\"");
                 fprintf(output_file, command);
+                fprintf(output_file, "\\");
+                fprintf(output_file, "n");
                 fprintf(output_file, "\");\n");
             }
         }
