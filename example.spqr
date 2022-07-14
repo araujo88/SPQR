@@ -1,6 +1,8 @@
+numerus c = L
 imprimere("Carthago delenda est!")
 imprimere("Gallia est omnis divisa in partes tres.")
-numerus a = I
+numerus a = XX
 numerus b = VII
 imprimere(a)
 imprimere(b)
+imprimere(c)

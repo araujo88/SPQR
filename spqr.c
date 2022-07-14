@@ -2,6 +2,44 @@
 #include <stdlib.h>
 #include <string.h>
 
+static int roman_to_integer(char c)
+{
+    switch(c) {
+    case 'I':  
+        return 1;  
+    case 'V':  
+        return 5;  
+    case 'X':  
+        return 10;  
+    case 'L':  
+        return 50;  
+    case 'C':  
+        return 100;  
+    case 'D':  
+        return 500;  
+    case 'M':  
+        return 1000;  
+    default:
+        return 0;
+    }
+}
+
+int roman_to_int(char *s)
+{
+    int i, int_num = roman_to_integer(s[0]);
+
+    for (i = 1; s[i] != '\0'; i++) {
+        int prev_num = roman_to_integer(s[i - 1]);
+        int cur_num = roman_to_integer(s[i]);
+        if (prev_num < cur_num) {
+            int_num = int_num - prev_num + (cur_num - prev_num);
+        } else {
+            int_num += cur_num;
+        }
+    }
+    return int_num;
+}
+
 void remove_char(char *str, char garbage)
 {
     char *src, *dst;
@@ -57,7 +95,6 @@ void str_replace(char *target, const char *needle, const char *replacement)
 }
 
 void process_file(FILE *input_file, FILE *output_file, char *buffer) {
-    int i;
     char *command;
     ssize_t read;
     size_t len = 0;
@@ -97,22 +134,19 @@ void process_file(FILE *input_file, FILE *output_file, char *buffer) {
                 command = strstr(buffer, "numerus ");
                 if (command != NULL) {
                     remove_char(command, '\n');
-                    str_replace(command, "X", "10");
-                    str_replace(command, "IX", "9");
-                    str_replace(command, "VIII", "8");
-                    str_replace(command, "VII", "7");
-                    str_replace(command, "VI", "6");
-                    str_replace(command, "V", "5");
-                    str_replace(command, "IV", "4");
-                    str_replace(command, "III", "3");
-                    str_replace(command, "II", "2");
-                    str_replace(command, "I", "1");
-                    fprintf(output_file, "\tlong long int");
-                    i = 0;
-                    while (command[i] != ' ') {
-                        command += 1;
-                    }
+                    fprintf(output_file, "\tlong long int ");
+                    command += 8;
+                    char number[100];
+                    sprintf(number, "%d", roman_to_int(command));
+                    remove_char(command, 'I');
+                    remove_char(command, 'V');
+                    remove_char(command, 'X');
+                    remove_char(command, 'L');
+                    remove_char(command, 'C');
+                    remove_char(command, 'D');
+                    remove_char(command, 'M');
                     fprintf(output_file, command);
+                    fprintf(output_file, number);
                     fprintf(output_file, ";\n");
                     memset(command, 0, strlen(command));
                     break;
