@@ -1,2 +1,6 @@
 imprimere("Carthago delenda est!")
 imprimere("Gallia est omnis divisa in partes tres.")
+numerus a = I
+numerus b = VII
+imprimere(a)
+imprimere(b)

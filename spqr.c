@@ -23,23 +23,100 @@ char *remove_substring(char *str, const char *sub) {
     return str;
 }
 
+void str_replace(char *target, const char *needle, const char *replacement)
+{
+    char buffer[1024] = { 0 };
+    char *insert_point = &buffer[0];
+    const char *tmp = target;
+    size_t needle_len = strlen(needle);
+    size_t repl_len = strlen(replacement);
+
+    while (1) {
+        const char *p = strstr(tmp, needle);
+
+        // walked past last occurrence of needle; copy remaining part
+        if (p == NULL) {
+            strcpy(insert_point, tmp);
+            break;
+        }
+
+        // copy part before needle
+        memcpy(insert_point, tmp, p - tmp);
+        insert_point += p - tmp;
+
+        // copy replacement string
+        memcpy(insert_point, replacement, repl_len);
+        insert_point += repl_len;
+
+        // adjust pointers, move on
+        tmp = p + needle_len;
+    }
+
+    // write altered string back to target
+    strcpy(target, buffer);
+}
+
 void process_file(FILE *input_file, FILE *output_file, char *buffer) {
+    int i;
     char *command;
     ssize_t read;
     size_t len = 0;
 
     if (input_file) {
         while ((read = getline(&buffer, &len, input_file)) != -1) {
-            command = strstr(buffer, "imprimere(\"");
-            if (command != NULL) {
-                command += 11;
-                command = remove_substring(command, "\")");
-                remove_char(command, '\n');
-                fprintf(output_file, "\tprintf(\"");
-                fprintf(output_file, command);
-                fprintf(output_file, "\\");
-                fprintf(output_file, "n");
-                fprintf(output_file, "\");\n");
+            while(1) {
+                // print string
+                command = strstr(buffer, "imprimere(\"");
+                if (command != NULL) {
+                    command += 11;
+                    command = remove_substring(command, "\")");
+                    remove_char(command, '\n');
+                    fprintf(output_file, "\tprintf(\"");
+                    fprintf(output_file, command);
+                    fprintf(output_file, "\\");
+                    fprintf(output_file, "n");
+                    fprintf(output_file, "\");\n");
+                    memset(command, 0, strlen(command));
+                    break;
+                }
+
+                // print integer
+                command = strstr(buffer, "imprimere(");
+                if (command != NULL) {
+                    command += 10;
+                    command = remove_substring(command, "\")");
+                    remove_char(command, '\n');
+                    fprintf(output_file, "\tprintf(\"%%lld\\n\", ");
+                    fprintf(output_file, command);
+                    fprintf(output_file, ";\n");
+                    memset(command, 0, strlen(command));
+                    break;
+                }
+
+                // declare integer
+                command = strstr(buffer, "numerus ");
+                if (command != NULL) {
+                    remove_char(command, '\n');
+                    str_replace(command, "X", "10");
+                    str_replace(command, "IX", "9");
+                    str_replace(command, "VIII", "8");
+                    str_replace(command, "VII", "7");
+                    str_replace(command, "VI", "6");
+                    str_replace(command, "V", "5");
+                    str_replace(command, "IV", "4");
+                    str_replace(command, "III", "3");
+                    str_replace(command, "II", "2");
+                    str_replace(command, "I", "1");
+                    fprintf(output_file, "\tlong long int");
+                    i = 0;
+                    while (command[i] != ' ') {
+                        command += 1;
+                    }
+                    fprintf(output_file, command);
+                    fprintf(output_file, ";\n");
+                    memset(command, 0, strlen(command));
+                    break;
+                }
             }
         }
     }
@@ -107,6 +184,7 @@ int main(int argc, char *argv[])
     fclose(input_file);
     fclose(output_file);
 
+    //sprintf(command, "gcc %s.c -c && gcc %s.o -o %s", output_filename, output_filename, output_filename);
     sprintf(command, "gcc %s.c -c && gcc %s.o -o %s && rm -rf %s.c %s.o", output_filename, output_filename, output_filename, output_filename, output_filename);
     fp = popen(command, "r");
     if (fp == NULL) {
