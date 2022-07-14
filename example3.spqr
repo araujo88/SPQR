@@ -5,12 +5,16 @@ numerus d = X
 
 si b != a:
     imprimere("b non aequalis a")
+finis
 
 si b > a:
     imprimere("b maior est quam a")
+finis
 
 si c == d:
     imprimere("c aequalis d")
+finis
 
 si a < d:
     imprimere("a minor est quam d")
+finis

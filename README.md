@@ -40,21 +40,25 @@ Char - `littera` <br>
 `imprimire("a aequalis b")` <br>
 `aliud:` <br>
 `imprimire("a non aequalis b")` <br>
+`finis` <br>
 
 ### While statement
 
 `numerus a = nullus`<br> <br>
 `dum a < V:` <br>
 `a += I` <br>
+`finis` <br>
 
 ### Switch statement
 
 `numerus a = VII`<br> <br>
 `electio a:` <br>
 `casus VII:` <br>
-`imprimire("a aequalis VII")` <br> 
+`imprimire("a aequalis VII")` <br>
+`finis` <br>
 
 ### For statement
 
 `nam numerus a = nullus, a < X, a++:`<br>
 `imprimire("Ave Caesar!")` <br> 
+`finis` <br>
