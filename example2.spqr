@@ -1,0 +1,7 @@
+numerus c = XL
+numerus a = XX
+numerus b = VII
+
+imprimere(a)
+imprimere(b)
+imprimere(c)

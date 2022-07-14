@@ -1,11 +1,2 @@
-numerus c = XL
-
 imprimere("Carthago delenda est!")
 imprimere("Gallia est omnis divisa in partes tres.")
-
-numerus a = XX + X
-numerus b = VII
-
-imprimere(a)
-imprimere(b)
-imprimere(c)

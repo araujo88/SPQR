@@ -1,0 +1,16 @@
+numerus a = I
+numerus b = V
+numerus c = X
+numerus d = X
+
+si b != a:
+    imprimere("b non aequalis a")
+
+si b > a:
+    imprimere("b maior est quam a")
+
+si c == d:
+    imprimere("c aequalis d")
+
+si a < d:
+    imprimere("a minor est quam d")
