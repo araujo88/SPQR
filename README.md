@@ -31,6 +31,8 @@ SPQR esoteric programming language based on the latin language
 Integer - `numerus` <br>
 String - `verbum` <br>
 Char - `littera` <br>
+Boolean - `booleanus`<br>
+Float - `fluito` <br>
 
 ### If-else statement
 
