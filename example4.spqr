@@ -1,0 +1,5 @@
+verbum nomen = "Gaius"
+verbum cognomen = "Julius Caesar"
+
+imprimere(nomen)
+imprimere(cognomen)
