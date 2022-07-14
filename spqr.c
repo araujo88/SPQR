@@ -102,6 +102,7 @@ void process_file(FILE *input_file, FILE *output_file, char *buffer) {
     if (input_file) {
         while ((read = getline(&buffer, &len, input_file)) != -1) {
             while(1) {
+
                 // print string
                 command = strstr(buffer, "imprimere(\"");
                 if (command != NULL) {
@@ -149,6 +150,12 @@ void process_file(FILE *input_file, FILE *output_file, char *buffer) {
                     fprintf(output_file, number);
                     fprintf(output_file, ";\n");
                     memset(command, 0, strlen(command));
+                    break;
+                }
+
+                 // ignores newlines
+                command = strstr(buffer, "\n");
+                if (command != NULL) {
                     break;
                 }
             }
